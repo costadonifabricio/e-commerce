@@ -2,6 +2,7 @@ import { PORT } from "../config/config.js";
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan';
+import { router } from "../routes/products.routes.js";
 import { dbConnection } from "../db/connection.js";
 
 export class Server {
@@ -10,7 +11,8 @@ export class Server {
         this.app = express();
         this.port = PORT;
         this.dbConnect();
-        this.middlewares();    
+        this.middlewares();   
+        this.routes(); 
     }
 
     async dbConnect(){
@@ -21,6 +23,10 @@ export class Server {
         this.app.use(cors());
         this.app.use(morgan('dev'));
         this.app.use(express.json());
+    }
+
+    routes(){
+        this.app.use('/api', router)
     }
 
     listen(){

@@ -24,3 +24,44 @@ export const userSchema = [
     .isString()
     .withMessage("El rol es obligatorio"),
 ];
+
+export const productSchema = [
+  body("name")
+    .exists()
+    .notEmpty()
+    .isString()
+    .withMessage("El nombre del producto es obligatorio"),
+  body("price")
+    .exists()
+    .notEmpty()
+    .isNumeric()
+    .withMessage("El precio del producto es obligatorio"),
+  body("category")
+    .exists()
+    .notEmpty()
+    .isString()
+    .withMessage("La categoría del producto es obligatoria"),
+  body("description")
+    .exists()
+    .notEmpty()
+    .isString()
+    .withMessage("La descripción del producto es obligatoria"),
+  body("stock")
+    .exists()
+    .notEmpty()
+    .isNumeric()
+    .withMessage("El stock del producto es obligatorio"),
+];
+
+export const operationSchema = [
+  body("quantity")
+    .exists()
+    .notEmpty()
+    .isNumeric()
+    .withMessage("La cantidad del producto es obligatoria"),
+  body("totalprice")
+    .exists()
+    .notEmpty()
+    .isNumeric()
+    .withMessage("El precio total de la compra es obligatoria"),
+];

@@ -17,11 +17,57 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await ProductService.findOne(id);
+    if (!product) {
+      return res.status(404).json({
+        status: "Not Found",
+        message: "Producto no encontrado",
+      });
+    }
+    return res.json(product);
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message || "Error interno del servidor",
+    });
+  }
+};
+
 export const createProduct = async (req, res) => {
   try {
     await ProductService.create(req.body);
     return res.status(201).json({
       message: "Producto creado",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message || "Error interno del servidor",
+    });
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ProductService.update(id, req.body);
+    return res.json({
+      message: "Producto actualizado",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message || "Error interno del servidor",
+    });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ProductService.delete(id);
+    return res.json({
+      message: "Producto eliminado",
     });
   } catch (err) {
     return res.status(500).json({

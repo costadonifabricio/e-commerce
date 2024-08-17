@@ -30,3 +30,26 @@ export const createOperation = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateOperation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const operation = req.body;
+    const updatedOperation = await OperationService.update(id, operation);
+    res.status(200).json(updatedOperation);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export const deleteOperation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await OperationService.delete(id);
+    res.json({
+      message: "Operación eliminada",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

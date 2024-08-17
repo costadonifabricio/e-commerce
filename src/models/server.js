@@ -2,7 +2,8 @@ import { PORT } from "../config/config.js";
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan';
-import { router } from "../routes/products.routes.js";
+import routerUser from "../routes/user.routes.js";
+import routerProduct from "../routes/products.routes.js";
 import { dbConnection } from "../db/connection.js";
 
 export class Server {
@@ -26,7 +27,8 @@ export class Server {
     }
 
     routes(){
-        this.app.use('/api', router)
+        this.app.use('/api', routerUser)
+        this.app.use('/api', routerProduct)
     }
 
     listen(){

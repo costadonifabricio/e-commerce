@@ -26,6 +26,11 @@ export const userSchema = [
 ];
 
 export const productSchema = [
+  body("role")
+    .exists()
+    .notEmpty()
+    .isString()
+    .withMessage("El rol es obligatorio"),
   body("name")
     .exists()
     .notEmpty()
@@ -54,6 +59,11 @@ export const productSchema = [
 ];
 
 export const operationSchema = [
+  body("role")
+    .exists()
+    .notEmpty()
+    .isString()
+    .withMessage("El rol es obligatorio"),
   body("quantity")
     .exists()
     .notEmpty()

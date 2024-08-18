@@ -2,6 +2,12 @@ import OperationService from "../services/operationService.js";
 
 export const getOperations = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["client"].includes(role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const operations = await OperationService.findAll();
     res.status(200).json(operations);
   } catch (error) {
@@ -40,10 +46,16 @@ export const updateOperation = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const deleteOperation = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["admin"].includes(role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const { id } = req.params;
     await OperationService.delete(id);
     res.json({
@@ -52,4 +64,4 @@ export const deleteOperation = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};

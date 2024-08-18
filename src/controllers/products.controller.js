@@ -2,6 +2,12 @@ import ProductService from "../services/productServices.js";
 
 export const getProducts = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["client"].includes(role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const products = await ProductService.findAll();
     if (!products.length) {
       return res.status(404).json({
@@ -37,6 +43,12 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["client"].includes(role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     await ProductService.create(req.body);
     return res.status(201).json({
       message: "Producto creado",
@@ -50,6 +62,12 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["client"].includes(role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const { id } = req.params;
     await ProductService.update(id, req.body);
     return res.json({
@@ -64,6 +82,12 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["client"].includes(role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const { id } = req.params;
     await ProductService.delete(id);
     return res.json({

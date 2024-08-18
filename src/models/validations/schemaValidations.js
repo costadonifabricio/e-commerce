@@ -30,6 +30,7 @@ export const productSchema = [
     .exists()
     .notEmpty()
     .isString()
+    .isIn(["admin", "seller", "client"])
     .withMessage("El rol es obligatorio"),
   body("name")
     .exists()
@@ -63,6 +64,7 @@ export const operationSchema = [
     .exists()
     .notEmpty()
     .isString()
+    .isIn(["admin", "seller", "client"])
     .withMessage("El rol es obligatorio"),
   body("quantity")
     .exists()

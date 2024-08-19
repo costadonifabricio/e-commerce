@@ -3,7 +3,7 @@ import OperationService from "../services/operationService.js";
 export const getOperations = async (req, res) => {
   try {
     const { role } = req.body;
-    if (["client"].includes(role)) {
+    if (["client", "seller"].includes(role)) {
       return res
         .status(403)
         .json({ message: "No tienes los permisos para realizar esta acción" });
@@ -29,6 +29,12 @@ export const getOperation = async (req, res) => {
 
 export const createOperation = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (["client"].includes(req.body.role)) {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const operation = req.body;
     const newOperation = await OperationService.create(operation);
     res.status(201).json(newOperation);
@@ -51,7 +57,7 @@ export const updateOperation = async (req, res) => {
 export const deleteOperation = async (req, res) => {
   try {
     const { role } = req.body;
-    if (["admin"].includes(role)) {
+    if (["client"].includes(role)) {
       return res
         .status(403)
         .json({ message: "No tienes los permisos para realizar esta acción" });

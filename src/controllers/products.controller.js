@@ -1,12 +1,15 @@
 import ProductService from "../services/productServices.js";
 
+const validRoles = ["admin", "client", "seller"];
+
 export const getProducts = async (req, res) => {
   try {
     const { role } = req.body;
-    if (["client"].includes(role)) {
-      return res
-        .status(403)
-        .json({ message: "No tienes los permisos para realizar esta acción" });
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role === "client") {
+      return res.status(403).json({ message: "No tienes los permisos para realizar esta acción" });
     }
     const products = await ProductService.findAll();
     if (!products.length) {
@@ -25,6 +28,10 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
     const { id } = req.params;
     const product = await ProductService.findOne(id);
     if (!product) {
@@ -44,10 +51,11 @@ export const getProduct = async (req, res) => {
 export const createProduct = async (req, res) => {
   try {
     const { role } = req.body;
-    if (["client"].includes(role)) {
-      return res
-        .status(403)
-        .json({ message: "No tienes los permisos para realizar esta acción" });
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role === "client") {
+      return res.status(403).json({ message: "No tienes los permisos para realizar esta acción" });
     }
     await ProductService.create(req.body);
     return res.status(201).json({
@@ -63,10 +71,11 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { role } = req.body;
-    if (["client"].includes(role)) {
-      return res
-        .status(403)
-        .json({ message: "No tienes los permisos para realizar esta acción" });
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role === "client") {
+      return res.status(403).json({ message: "No tienes los permisos para realizar esta acción" });
     }
     const { id } = req.params;
     await ProductService.update(id, req.body);
@@ -83,10 +92,11 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { role } = req.body;
-    if (["client"].includes(role)) {
-      return res
-        .status(403)
-        .json({ message: "No tienes los permisos para realizar esta acción" });
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role === "client") {
+      return res.status(403).json({ message: "No tienes los permisos para realizar esta acción" });
     }
     const { id } = req.params;
     await ProductService.delete(id);

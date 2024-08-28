@@ -1,7 +1,18 @@
 import userService from "../services/userService.js";
 
+const validRoles = ["admin", "client", "seller"];
+
 export const getUsers = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const users = await userService.findAll();
     if (!users.length) {
       return res.status(404).json({
@@ -37,6 +48,10 @@ export const getUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
     await userService.create(req.body);
     return res.status(201).json({
       message: "Usuario creado",
@@ -50,6 +65,15 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const { id } = req.params;
     await userService.update(id, req.body);
     return res.json({
@@ -64,6 +88,15 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
+    const { role } = req.body;
+    if (!validRoles.includes(role)) {
+      return res.status(403).json({ message: "Rol no permitido" });
+    }
+    if (role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "No tienes los permisos para realizar esta acción" });
+    }
     const { id } = req.params;
     await userService.delete(id);
     return res.json({
